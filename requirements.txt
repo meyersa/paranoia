@@ -1,0 +1,6 @@
+# Pip Requirements File
+shodan 
+python-dotenv
+requests
+pymongo
+flask
