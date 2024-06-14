@@ -1,0 +1,16 @@
+services: 
+  mongodb: 
+    profiles: [ mongodb, all ]
+    container_name: mongodb
+    image: mongo:latest
+    restart: always 
+    env_file:
+      - .env
+    volumes: 
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - mongodb-data:/data/db
+    ports: 
+      - "127.0.0.1:27017:27017"
+
+volumes:
+  mongodb-data:

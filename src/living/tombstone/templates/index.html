@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Paranoia Module</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="icon" type="image/x-icon" href="/static/grave.ico" />
+  </head>
+  <body class="flex-column">
+    <div class="header white-box">
+      <div class="flex-row wrapper">
+        <div class="left">
+          <div class="flex-row">
+            <div class="left">
+              <h1>paranoia</h1>
+            </div>
+            <div class="right">
+              <h1 class="ghost">👻</h1>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <!-- ❌ -->
+          <h5>Connected ✅</h5>
+          <p>Last refresh 3s ago</p>
+        </div>
+      </div>
+    </div>
+    <div class="middle grid-row wrapper">
+      <div class="left tombstone white-box">
+        <h3>Recent changes</h3>
+        {% if changes.items()|length != 0 %}
+        <div class="line"></div>
+        <!-- Key = display_name, Value = [ timestamp, summary, host/ip ] -->
+        {% for display_name, value in changes.items() %}
+        <div class="small-box">
+          <h5>{{ display_name }}</h5>
+          <p>{{ value[1] }}</p>
+          <p>{{ value[2] }}</p>
+          <p>Timestamp: {{ value[0] }}</p>
+        </div>
+        {% endfor %} {% else %}
+        <p>This is awkward... No recent changes were found</p>
+        <p>Maybe everything is safe?</p>
+        {% endif %}
+      </div>
+      <div class="center tombstone white-box">
+        <h3>Host Status</h3>
+        {% if hosts.items()|length != 0 %}
+        <div class="line"></div>
+        <!-- Key = display_name, Value = [ ping_response | down, ports_open[:5], geo_loc, ip_info ] -->
+        {% for display_name, value in hosts.items() %}
+        <div class="small-box">
+          <h5>{{ display_name }}</h5>
+          {% if value[0] == "Down" %}
+          <p>❌ Host down</p>
+          {% else %}
+          <p>✅ Up {{ value[0] }}</p>
+          {% endif %} {% if value[2] != None and value[2]|length > 0 %}
+          <p>Open ports: {{ value[1][:5] }}</p>
+          {% else %}
+          <p>No open ports</p>
+          {% endif %}
+          <p>Loc: {{ value[2] }}</p>
+          <p>ISP: {{ value[3] }}</p>
+        </div>
+        {% endfor %} {% else %}
+        <p>This is awkward... No hosts were found</p>
+        <p>Maybe everything is safe?</p>
+        {% endif %}
+      </div>
+      <div class="right tombstone white-box">
+        <h3>Websites</h3>
+        {% if websites.items()|length != 0 %}
+        <div class="line"></div>
+        <!-- Key = display_name, Value = [ request_response | down, vulns[:5], icann_info ] -->
+        {% for display_name, value in websites.items() %}
+        <div class="small-box">
+          <h5>{{ display_name }}</h5>
+          {% if value[0] == "Down" %}
+          <p>❌ Host down</p>
+          {% else %}
+          <p>✅ Up {{ value[0] }}</p>
+          {% endif %} {% if value[1] != None and value[1]|length > 0 %}
+          <p>Vulnerabilities: {{ value[1][:5] }}</p>
+          {% else %}
+          <p>No found vulnerabilities</p>
+          {% endif %}
+          <p>Registrar: {{ value[2] }}</p>
+        </div>
+        {% endfor %} {% else %}
+        <p>This is awkward... No recent changes were found</p>
+        <p>Maybe everything is safe?</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="footer white-box">
+      <div class="wrapper fit-content">
+        <p>made with hate <a href="https://github.com/meyersa/paranoia">on github</a></p>
+      </div>
+    </div>
+  </body>
+</html>
