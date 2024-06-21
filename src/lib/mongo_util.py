@@ -90,10 +90,13 @@ class mongo_util():
         return False            
     
     def get_hosts(self) -> list: 
-        res = list(self.hosts_client.find())
-        debug_print(f'Got and returned {len(res)} websites')
+        res = [host for host in self.hosts_client.find()]
 
+        debug_print(f'Got and returned {len(res)} websites')
+        print(res)
         return res
     
+    def update_host(self, host, metric, value) -> bool: 
+        
     # TODO: Add update area
     # TODO: trigger for recent changes / 50 maybe? or a function for each host/website

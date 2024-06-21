@@ -1,0 +1,1 @@
+# TODO: Python container that accesses the medium api and sends notifications
